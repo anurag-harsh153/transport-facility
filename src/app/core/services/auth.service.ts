@@ -10,6 +10,8 @@ import { APP_CONFIG } from '../tokens/app-config.token';
 export class AuthService {
 
   private readonly TOKEN_KEY = 'auth_token';
+  private readonly ROLE_KEY = 'auth_role';
+  private readonly EMPLOYEE_ID_KEY = 'auth_employee_id';
 
   constructor(
     private http: HttpClient,
@@ -24,26 +26,37 @@ export class AuthService {
       { username, password }
     ).pipe(
       tap(response => {
-        this.storeToken(response.token);
+        this.storeSession(response);
       })
     );
   }
 
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem(this.ROLE_KEY);
+    localStorage.removeItem(this.EMPLOYEE_ID_KEY);
     this.router.navigate(['/auth/login']);
   }
 
-  storeToken(token: string): void {
-    localStorage.setItem(this.TOKEN_KEY, token);
+  private storeSession(response: { token: string; role: string; employeeId: string; }): void {
+    localStorage.setItem(this.TOKEN_KEY, response.token);
+    localStorage.setItem(this.ROLE_KEY, response.role);
+    localStorage.setItem(this.EMPLOYEE_ID_KEY, response.employeeId);
   }
 
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
+  getRole(): string | null {
+    return localStorage.getItem(this.ROLE_KEY);
+  }
+
+  getEmployeeId(): string | null {
+    return localStorage.getItem(this.EMPLOYEE_ID_KEY);
+  }
+
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
-
 }
