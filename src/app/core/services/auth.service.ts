@@ -18,8 +18,9 @@ export class AuthService {
   ) {}
 
   login(username: string, password: string): Observable<any> {
+    const requestUrl = `${this.config.apiBaseUrl}/login`;
     return this.http.post<any>(
-      `${this.config.apiBaseUrl}/login`,
+      requestUrl,
       { username, password }
     ).pipe(
       tap(response => {
