@@ -1,1 +1,33 @@
-<p>ride-list works!</p>
+<div class="">
+  <h2>Available Rides</h2>
+  
+  <app-filter-panel (filterChange)="refreshRides($event)"></app-filter-panel>
+
+  <div *ngIf="rides$ | async as rides; else loadingOrNoRides">
+    <div *ngIf="rides.length > 0; else noRides">
+      <div *ngFor="let ride of rides" class="ride-card">
+        <h3>{{ ride.pickupPoint }} to {{ ride.destination }}</h3>
+        <p>Driver: {{ ride.employeeId }}</p>
+        <p>Time: {{ ride.time | date:'shortTime' }}</p>
+        <p>Vehicle: {{ ride.vehicleType }} ({{ ride.vehicleNo }})</p>
+        <p>Vacant Seats: {{ ride.vacantSeats }}</p>
+        <p *ngIf="ride.bookedEmployeeIds.length > 0">Booked by: {{ ride.bookedEmployeeIds.join(', ') }}</p>
+
+        <button 
+          *ngIf="!isMyRide(ride) && !hasBooked(ride) && ride.vacantSeats > 0"
+          (click)="bookRide(ride.id)">
+          Book Ride
+        </button>
+        <button *ngIf="isMyRide(ride)" disabled class="">Your Ride</button>
+        <button *ngIf="hasBooked(ride)" disabled class="">Booked</button>
+        <button *ngIf="ride.vacantSeats === 0 && !isMyRide(ride) && !hasBooked(ride)" disabled class="">Full</button>
+      </div>
+    </div>
+    <ng-template #noRides>
+      <p>No rides available with current filters.</p>
+    </ng-template>
+  </div>
+  <ng-template #loadingOrNoRides>
+    <p>Loading rides or no rides available...</p>
+  </ng-template>
+</div>

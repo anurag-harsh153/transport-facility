@@ -1,1 +1,7 @@
-<p>filter-panel works!</p>
+<div class="">
+  <label for="vehicleTypeFilter">Filter by Vehicle Type:</label>
+  <select id="vehicleTypeFilter" (change)="onFilterChange($event)">
+    <option [value]="undefined">All</option>
+    <option *ngFor="let type of vehicleTypes" [value]="type">{{ type }}</option>
+  </select>
+</div>
