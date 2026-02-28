@@ -7,7 +7,6 @@ import { CoreModule } from './core/core-module';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './core/mock/in-memory-data.service';
-import { APP_CONFIG } from './core/tokens/app-config.token';
 
 @NgModule({
   declarations: [
@@ -23,14 +22,7 @@ import { APP_CONFIG } from './core/tokens/app-config.token';
     ),
     CoreModule
   ],
-  providers: [
-    {
-      provide: APP_CONFIG,
-      useValue: {
-        apiBaseUrl: 'api'
-      }
-    }
-  ],
+  providers: [],
   bootstrap: [App]
 })
 export class AppModule { }

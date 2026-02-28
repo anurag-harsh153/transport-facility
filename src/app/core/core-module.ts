@@ -19,7 +19,7 @@ import { APP_CONFIG } from './tokens/app-config.token';
     {
       provide: APP_CONFIG,
       useValue: {
-        apiBaseUrl: 'http://localhost:3000'
+        apiBaseUrl: 'api'
       }
     }
   ]
