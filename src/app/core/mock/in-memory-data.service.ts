@@ -6,10 +6,10 @@ export class InMemoryDataService implements InMemoryDbService {
 
   createDb() {
     const users = [
-      { id: '1', username: 'admin', password: 'password', role: 'ADMIN' },
-      { id: '2', username: 'john.doe', password: 'password', role: 'USER' },
-      { id: '3', username: 'jane.doe', password: 'password', role: 'USER' },
-      { id: '4', username: 'peter.jones', password: 'password', role: 'USER' }
+      { id: '1', username: 'admin', password: 'password' },
+      { id: '2', username: 'john.doe', password: 'password' },
+      { id: '3', username: 'jane.doe', password: 'password' },
+      { id: '4', username: 'peter.jones', password: 'password' }
     ];
 
     const rides: Ride[] = [
@@ -79,7 +79,6 @@ export class InMemoryDataService implements InMemoryDbService {
           status: 200,
           body: {
             token: 'fake-jwt-token-for-' + user.username,
-            role: user.role,
             employeeId: user.id
           }
         }));
