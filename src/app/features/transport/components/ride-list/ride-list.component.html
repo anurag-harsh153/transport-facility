@@ -1,11 +1,11 @@
-<div class="">
+<div class="card py-2">
   <h2>Available Rides</h2>
   
   <app-filter-panel (filterChange)="refreshRides($event)"></app-filter-panel>
 
   <div *ngIf="rides$ | async as rides; else loadingOrNoRides">
     <div *ngIf="rides.length > 0; else noRides">
-      <div *ngFor="let ride of rides" class="ride-card">
+      <div *ngFor="let ride of rides" class="card ride-card-item">
         <h3>{{ ride.pickupPoint }} to {{ ride.destination }}</h3>
         <p>Driver: {{ ride.employeeId }}</p>
         <p>Time: {{ ride.time | date:'shortTime' }}</p>
@@ -18,9 +18,9 @@
           (click)="bookRide(ride.id)">
           Book Ride
         </button>
-        <button *ngIf="isMyRide(ride)" disabled class="">Your Ride</button>
-        <button *ngIf="hasBooked(ride)" disabled class="">Booked</button>
-        <button *ngIf="ride.vacantSeats === 0 && !isMyRide(ride) && !hasBooked(ride)" disabled class="">Full</button>
+        <button *ngIf="isMyRide(ride)" disabled class="disabled-button">Your Ride</button>
+        <button *ngIf="hasBooked(ride)" disabled class="disabled-button">Booked</button>
+        <button *ngIf="ride.vacantSeats === 0 && !isMyRide(ride) && !hasBooked(ride)" disabled class="disabled-button">Full</button>
       </div>
     </div>
     <ng-template #noRides>
@@ -30,4 +30,10 @@
   <ng-template #loadingOrNoRides>
     <p>Loading rides or no rides available...</p>
   </ng-template>
+</div>
+
+<button (click)="toggleAddRideForm()" class="mt-4 mx-auto d-block">Add a new ride</button>
+
+<div *ngIf="showAddRideForm" class="mt-4">
+  <app-add-ride (rideAdded)="onRideAdded()" (cancelled)="onRideAdded()"></app-add-ride>
 </div>

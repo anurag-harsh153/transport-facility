@@ -1,55 +1,58 @@
-<div class="">
+<div class="card">
   <h2>Add a New Ride</h2>
   <form [formGroup]="addRideForm" (ngSubmit)="onSubmit()">
     
-    <div class="">
+    <div class="form-group">
       <label for="pickupPoint">Pick-up Point</label>
       <input id="pickupPoint" type="text" formControlName="pickupPoint">
-      <div *ngIf="submitted && formControls['pickupPoint'].errors" class="">
+      <div *ngIf="submitted && formControls['pickupPoint'].errors" class="error">
         <small *ngIf="formControls['pickupPoint'].errors['required']">Pick-up point is required.</small>
       </div>
     </div>
 
-    <div class="">
+    <div class="form-group">
       <label for="destination">Destination</label>
       <input id="destination" type="text" formControlName="destination">
-      <div *ngIf="submitted && formControls['destination'].errors" class="">
+      <div *ngIf="submitted && formControls['destination'].errors" class="error">
         <small *ngIf="formControls['destination'].errors['required']">Destination is required.</small>
       </div>
     </div>
 
-    <div class="">
+    <div class="form-group">
       <label for="time">Time</label>
       <input id="time" type="time" formControlName="time">
-      <div *ngIf="submitted && formControls['time'].errors" class="">
+      <div *ngIf="submitted && formControls['time'].errors" class="error">
         <small *ngIf="formControls['time'].errors['required']">Time is required.</small>
       </div>
     </div>
 
-    <div class="">
+    <div class="form-group">
       <label for="vehicleType">Vehicle Type</label>
       <select id="vehicleType" formControlName="vehicleType">
         <option *ngFor="let type of vehicleTypes" [value]="type">{{ type }}</option>
       </select>
     </div>
 
-    <div class="">
+    <div class="form-group">
       <label for="vehicleNo">Vehicle Number</label>
       <input id="vehicleNo" type="text" formControlName="vehicleNo">
-      <div *ngIf="submitted && formControls['vehicleNo'].errors" class="">
+      <div *ngIf="submitted && formControls['vehicleNo'].errors" class="error">
         <small *ngIf="formControls['vehicleNo'].errors['required']">Vehicle number is required.</small>
       </div>
     </div>
 
-    <div class="">
+    <div class="form-group">
       <label for="vacantSeats">Vacant Seats</label>
       <input id="vacantSeats" type="number" formControlName="vacantSeats">
-      <div *ngIf="submitted && formControls['vacantSeats'].errors" an class="">
+      <div *ngIf="submitted && formControls['vacantSeats'].errors" class="error">
         <small *ngIf="formControls['vacantSeats'].errors['required']">Number of vacant seats is required.</small>
         <small *ngIf="formControls['vacantSeats'].errors['min'] || formControls['vacantSeats'].errors['max']">Seats must be between 1 and 10.</small>
       </div>
     </div>
 
-    <button type="submit" [disabled]="addRideForm.invalid && submitted">Add Ride</button>
+    <div class="button-group">
+      <button type="submit" [disabled]="addRideForm.invalid && submitted">Add Ride</button>
+      <button type="button" (click)="onCancel()" class="btn-secondary">Cancel</button>
+    </div>
   </form>
 </div>

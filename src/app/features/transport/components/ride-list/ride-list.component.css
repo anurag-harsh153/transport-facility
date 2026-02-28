@@ -1,0 +1,50 @@
+.ride-list-container {
+  max-width: 800px;
+  margin: 2em auto;
+}
+
+.ride-list-container h2 {
+    margin-top: 0;
+    margin-bottom: var(--spacing-unit);
+}
+
+.ride-card-item {
+  margin-bottom: var(--spacing-unit);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.ride-card-item h3 {
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  color: var(--secondary-color);
+}
+
+.ride-card-item p {
+  margin: 0;
+  color: var(--light-text-color);
+  font-size: 0.95em;
+}
+
+.ride-card-item button {
+  margin-top: 1em;
+  align-self: flex-start;
+  width: auto;
+  padding: 0.6em 1em;
+  font-size: 0.9em;
+}
+
+.ride-card-item .disabled-button {
+  background-color: var(--disabled-color);
+  color: var(--text-color);
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+.noRides, .loadingOrNoRides {
+  text-align: center;
+  color: var(--light-text-color);
+  margin-top: 2em;
+}

@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { RideService } from '../../../../core/services/ride.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { VehicleType } from '../../models/vehicle-type.enum';
@@ -12,6 +11,9 @@ import { VehicleType } from '../../models/vehicle-type.enum';
   styleUrls: ['./add-ride.component.css']
 })
 export class AddRideComponent implements OnInit {
+  @Output() rideAdded = new EventEmitter<void>();
+  @Output() cancelled = new EventEmitter<void>();
+
   addRideForm!: FormGroup;
   vehicleTypes = Object.values(VehicleType);
   submitted = false;
@@ -19,8 +21,7 @@ export class AddRideComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private rideService: RideService,
-    private authService: AuthService,
-    private router: Router
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -52,7 +53,6 @@ export class AddRideComponent implements OnInit {
 
     const formValue = this.addRideForm.value;
 
-    // Combine date from today with time from form
     const today = new Date();
     const [hours, minutes] = formValue.time.split(':');
     today.setHours(hours, minutes, 0, 0);
@@ -66,12 +66,15 @@ export class AddRideComponent implements OnInit {
     this.rideService.addRide(rideData).subscribe({
       next: () => {
         console.log('Ride added successfully!');
-        // Navigate to the ride list or a success page
-        this.router.navigate(['/transport']);
+        this.rideAdded.emit();
       },
       error: (err) => {
         console.error('Failed to add ride', err);
       }
     });
+  }
+
+  onCancel(): void {
+    this.cancelled.emit();
   }
 }

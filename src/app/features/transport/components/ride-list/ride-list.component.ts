@@ -14,6 +14,7 @@ import { VehicleType } from '../../models/vehicle-type.enum';
 export class RideListComponent implements OnInit {
   rides$!: Observable<Ride[]>;
   currentFilter: VehicleType | undefined = undefined;
+  showAddRideForm: boolean = false;
 
   constructor(
     private rideService: RideService,
@@ -48,5 +49,14 @@ export class RideListComponent implements OnInit {
 
   hasBooked(ride: Ride): boolean {
     return ride.bookedEmployeeIds.includes(this.authService.getEmployeeId() || '');
+  }
+
+  toggleAddRideForm(): void {
+    this.showAddRideForm = !this.showAddRideForm;
+  }
+
+  onRideAdded(): void {
+    this.showAddRideForm = false;
+    this.refreshRides(this.currentFilter);
   }
 }

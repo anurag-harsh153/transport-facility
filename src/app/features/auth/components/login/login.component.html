@@ -1,12 +1,12 @@
-<div>
+<div class="container card form-container">
   <h2>Login</h2>
 
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div>
+    <div class="form-group">
       <label>Username</label>
       <input type="text" formControlName="username" />
 
-      <div *ngIf="submitted && form['username'].errors">
+      <div *ngIf="submitted && form['username'].errors" class="error">
         <small *ngIf="form['username'].errors['required']">
           Username is required
         </small>
@@ -15,11 +15,11 @@
         </small>
       </div>
     </div>
-    <div>
+    <div class="form-group">
       <label>Password</label>
       <input type="password" formControlName="password" />
 
-      <div *ngIf="submitted && form['password'].errors">
+      <div *ngIf="submitted && form['password'].errors" class="error">
         <small *ngIf="form['password'].errors['required']">
           Password is required
         </small>

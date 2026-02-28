@@ -1,0 +1,29 @@
+.filter-panel-card {
+  padding: 1em 1.5em;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin-bottom: 1.5em;
+}
+
+.filter-panel-card label {
+  font-weight: 600;
+  color: var(--light-text-color);
+  white-space: nowrap;
+}
+
+.filter-panel-card select {
+  flex-grow: 1;
+  padding: 0.6em;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 0.95em;
+  background-color: var(--surface-color);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.filter-panel-card select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}

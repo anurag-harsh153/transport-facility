@@ -8,6 +8,7 @@ import { CoreModule } from './core/core-module';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './core/mock/in-memory-data.service';
 import { AuthInterceptor } from './core/interceptors/auth-interceptor';
+import { SharedModule } from './shared/shared-module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { AuthInterceptor } from './core/interceptors/auth-interceptor';
       InMemoryDataService,
       { delay: 500 }
     ),
-    CoreModule
+    CoreModule,
+    SharedModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
