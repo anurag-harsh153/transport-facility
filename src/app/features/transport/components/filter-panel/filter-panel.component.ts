@@ -9,6 +9,7 @@ import { VehicleType } from '../../models/vehicle-type.enum';
 })
 export class FilterPanelComponent implements OnInit {
   @Output() filterChange = new EventEmitter<VehicleType | undefined>();
+  @Output() addRideClick = new EventEmitter<void>();
 
   vehicleTypes = Object.values(VehicleType);
   selectedVehicleType: VehicleType | undefined = undefined;
@@ -23,5 +24,9 @@ export class FilterPanelComponent implements OnInit {
     const value = selectElement.value;
     this.selectedVehicleType = value === 'all' ? undefined : (value as VehicleType);
     this.filterChange.emit(this.selectedVehicleType);
+  }
+
+  onAddRideClick(): void {
+    this.addRideClick.emit();
   }
 }

@@ -4,4 +4,5 @@
     <option [value]="undefined">All</option>
     <option *ngFor="let type of vehicleTypes" [value]="type">{{ type }}</option>
   </select>
+  <button (click)="onAddRideClick()">Add a new ride</button>
 </div>

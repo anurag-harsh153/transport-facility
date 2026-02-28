@@ -1,6 +1,7 @@
-import { InMemoryDbService, RequestInfo, STATUS } from 'angular-in-memory-web-api';
+import { InMemoryDbService, RequestInfo, STATUS, RequestInfoUtilities } from 'angular-in-memory-web-api';
 import { Ride } from '../../features/transport/models/ride.model';
 import { VehicleType } from '../../features/transport/models/vehicle-type.enum';
+import { Observable } from 'rxjs';
 
 export class InMemoryDataService implements InMemoryDbService {
 
@@ -12,6 +13,10 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: '4', username: 'peter.jones', password: 'password' }
     ];
 
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+
     const rides: Ride[] = [
       {
         id: '11',
@@ -19,7 +24,7 @@ export class InMemoryDataService implements InMemoryDbService {
         vehicleType: VehicleType.Car,
         vehicleNo: 'TS-07-JA-1234',
         vacantSeats: 2,
-        time: this.getTodayTime(9, 30),
+        time: this.getTodayTime(currentHour, currentMinute - 30),
         pickupPoint: 'Main Gate',
         destination: 'Tech Park',
         bookedEmployeeIds: ['4']
@@ -30,7 +35,7 @@ export class InMemoryDataService implements InMemoryDbService {
         vehicleType: VehicleType.Bike,
         vehicleNo: 'AP-05-CD-5678',
         vacantSeats: 0,
-        time: this.getTodayTime(18, 0),
+        time: this.getTodayTime(currentHour, currentMinute + 15),
         pickupPoint: 'Tech Park',
         destination: 'Central Station',
         bookedEmployeeIds: ['3']
@@ -41,9 +46,20 @@ export class InMemoryDataService implements InMemoryDbService {
         vehicleType: VehicleType.Car,
         vehicleNo: 'MH-12-EF-9101',
         vacantSeats: 3,
-        time: this.getTodayTime(10, 0),
+        time: this.getTodayTime(currentHour + 1, currentMinute),
         pickupPoint: 'Main Gate',
-        destination: 'Tech Park',
+        destination: 'Downtown',
+        bookedEmployeeIds: []
+      },
+      {
+        id: '14',
+        employeeId: '3',
+        vehicleType: VehicleType.Bike,
+        vehicleNo: 'KA-01-FG-9876',
+        vacantSeats: 1,
+        time: this.getTodayTime(currentHour - 1, currentMinute + 10),
+        pickupPoint: 'City Center',
+        destination: 'Office Park',
         bookedEmployeeIds: []
       }
     ];
@@ -84,6 +100,38 @@ export class InMemoryDataService implements InMemoryDbService {
       return response;
     }
 
+    return undefined;
+  }
+
+  // Custom PUT handler for debugging
+  put(reqInfo: RequestInfo): Observable<any> | undefined {
+    if (reqInfo.collectionName === 'rides') {
+      const collection = reqInfo.collection as Ride[];
+      const rideToUpdate: Ride = reqInfo.utils.getJsonBody(reqInfo.req);
+      const index = collection.findIndex(r => r.id === rideToUpdate.id);
+
+      console.log('InMemoryDataService: PUT request for rides. Data received:', rideToUpdate);
+      console.log('InMemoryDataService: Current rides collection before update:', [...collection]);
+
+      if (index > -1) {
+        collection[index] = rideToUpdate;
+        console.log('InMemoryDataService: Rides collection after update:', [...collection]);
+        return reqInfo.utils.createResponse$(() => ({
+          body: rideToUpdate,
+          status: STATUS.OK,
+          headers: reqInfo.headers,
+          url: reqInfo.url
+        }));
+      } else {
+        console.log('InMemoryDataService: Ride not found for update:', rideToUpdate.id);
+        return reqInfo.utils.createResponse$(() => ({
+          body: { message: `Ride with id '${rideToUpdate.id}' not found` },
+          status: STATUS.NOT_FOUND,
+          headers: reqInfo.headers,
+          url: reqInfo.url
+        }));
+      }
+    }
     return undefined;
   }
 

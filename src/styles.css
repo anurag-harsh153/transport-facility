@@ -13,6 +13,9 @@
   --box-shadow-color: rgba(0, 0, 0, 0.1);
   --focus-shadow-color: rgba(0, 123, 255, 0.35);
   --spacing-unit: 1rem;
+  --success-color: #28a745;
+  --success-light-bg: #d4edda;
+  --success-border: #c3e6cb;
 }
 
 body {

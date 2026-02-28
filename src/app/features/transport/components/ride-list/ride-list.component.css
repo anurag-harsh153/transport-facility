@@ -48,3 +48,22 @@
   color: var(--light-text-color);
   margin-top: 2em;
 }
+
+.booked-ride-card {
+  border: 1px solid var(--success-border);
+  background-color: var(--success-light-bg);
+  color: var(--success-color);
+  margin-top: 2em;
+  text-align: center;
+}
+
+.booked-ride-card h3 {
+  color: var(--success-color);
+  text-align: center;
+  margin-bottom: 0.5em;
+}
+
+.booked-ride-card p {
+  color: var(--success-color);
+  font-size: 1em;
+}

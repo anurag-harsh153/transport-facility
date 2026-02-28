@@ -1,26 +1,27 @@
 <div class="card py-2">
   <h2>Available Rides</h2>
-  
-  <app-filter-panel (filterChange)="refreshRides($event)"></app-filter-panel>
 
-  <div *ngIf="rides$ | async as rides; else loadingOrNoRides">
+  <app-filter-panel (filterChange)="refreshRides($event)" (addRideClick)="toggleAddRideForm()"></app-filter-panel>
+
+  <div *ngIf="showAddRideForm" class="mt-4">
+    <app-add-ride (rideAdded)="onRideAdded()" (cancelled)="onRideAdded()"></app-add-ride>
+  </div>
+
+  <div *ngIf="rides$ | async as rides; else loadingOrNoRides" class="mt-4">
     <div *ngIf="rides.length > 0; else noRides">
       <div *ngFor="let ride of rides" class="card ride-card-item">
         <h3>{{ ride.pickupPoint }} to {{ ride.destination }}</h3>
-        <p>Driver: {{ ride.employeeId }}</p>
+        <p>Created by: {{ ride.employeeId }}</p>
         <p>Time: {{ ride.time | date:'shortTime' }}</p>
         <p>Vehicle: {{ ride.vehicleType }} ({{ ride.vehicleNo }})</p>
         <p>Vacant Seats: {{ ride.vacantSeats }}</p>
         <p *ngIf="ride.bookedEmployeeIds.length > 0">Booked by: {{ ride.bookedEmployeeIds.join(', ') }}</p>
 
-        <button 
-          *ngIf="!isMyRide(ride) && !hasBooked(ride) && ride.vacantSeats > 0"
-          (click)="bookRide(ride.id)">
+        <button *ngIf="!hasBooked(ride) && ride.vacantSeats > 0" (click)="bookRide(ride.id)">
           Book Ride
         </button>
-        <button *ngIf="isMyRide(ride)" disabled class="disabled-button">Your Ride</button>
         <button *ngIf="hasBooked(ride)" disabled class="disabled-button">Booked</button>
-        <button *ngIf="ride.vacantSeats === 0 && !isMyRide(ride) && !hasBooked(ride)" disabled class="disabled-button">Full</button>
+        <button *ngIf="ride.vacantSeats === 0 && !hasBooked(ride)" disabled class="disabled-button">Full</button>
       </div>
     </div>
     <ng-template #noRides>
@@ -32,8 +33,9 @@
   </ng-template>
 </div>
 
-<button (click)="toggleAddRideForm()" class="mt-4 mx-auto d-block">Add a new ride</button>
-
-<div *ngIf="showAddRideForm" class="mt-4">
-  <app-add-ride (rideAdded)="onRideAdded()" (cancelled)="onRideAdded()"></app-add-ride>
+<div *ngIf="bookedRideByUser$ | async as bookedRide" class="card mt-4 booked-ride-card">
+  <h3>Your Booked Ride For Today</h3>
+  <p>From: {{ bookedRide.pickupPoint }} to {{ bookedRide.destination }}</p>
+  <p>Time: {{ bookedRide.time | date:'shortTime' }}</p>
+  <p>Vehicle: {{ bookedRide.vehicleType }} ({{ bookedRide.vehicleNo }})</p>
 </div>
