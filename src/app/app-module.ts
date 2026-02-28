@@ -3,6 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
+import { CoreModule } from './core/core-module';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { InMemoryDataService } from './core/mock/in-memory-data.service';
+import { APP_CONFIG } from './core/tokens/app-config.token';
 
 @NgModule({
   declarations: [
@@ -10,10 +15,21 @@ import { App } from './app';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(
+      InMemoryDataService,
+      { delay: 500 }
+    ),
+    CoreModule
   ],
   providers: [
-    provideBrowserGlobalErrorListeners()
+    {
+      provide: APP_CONFIG,
+      useValue: {
+        apiBaseUrl: 'api'
+      }
+    }
   ],
   bootstrap: [App]
 })
