@@ -1,12 +1,13 @@
-import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 import { CoreModule } from './core/core-module';
-import { HttpClientModule } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './core/mock/in-memory-data.service';
+import { AuthInterceptor } from './core/interceptors/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,9 @@ import { InMemoryDataService } from './core/mock/in-memory-data.service';
     ),
     CoreModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [App]
 })
 export class AppModule { }

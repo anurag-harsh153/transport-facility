@@ -1,4 +1,4 @@
-import { InMemoryDbService, RequestInfo } from 'angular-in-memory-web-api';
+import { InMemoryDbService, RequestInfo, STATUS } from 'angular-in-memory-web-api';
 import { Ride } from '../../features/transport/models/ride.model';
 import { VehicleType } from '../../features/transport/models/vehicle-type.enum';
 
@@ -51,13 +51,11 @@ export class InMemoryDataService implements InMemoryDbService {
     return { users, rides, login: [] };
   }
 
-
   private getTodayTime(hour: number, minute: number): string {
     const today = new Date();
     today.setHours(hour, minute, 0, 0);
     return today.toISOString();
   }
-
 
   genId(collection: { id: string }[], collectionName: string): string {
     if (collectionName === 'rides' && collection.length > 0) {
@@ -66,17 +64,41 @@ export class InMemoryDataService implements InMemoryDbService {
     return Date.now().toString();
   }
 
+  requestInterceptor(reqInfo: RequestInfo) {
+    const { collectionName, headers, utils } = reqInfo;
+
+    if (collectionName === 'login') {
+      return undefined;
+    }
+
+    const authHeader = headers.get('Authorization');
+    const token = authHeader?.split(' ')[1];
+
+    if (!token || !token.startsWith('fake-jwt-token')) {
+      const response = utils.createResponse$(() => ({
+        body: { message: 'Unauthorized: Missing or invalid token' },
+        status: STATUS.UNAUTHORIZED,
+        headers: reqInfo.headers,
+        url: reqInfo.url
+      }));
+      return response;
+    }
+
+    return undefined;
+  }
+
   post(reqInfo: RequestInfo) {
     if (reqInfo.collectionName === 'login') {
       const body = reqInfo.utils.getJsonBody(reqInfo.req);
       const { username, password } = body;
-      const user = this.createDb().users.find(
+      const users = this.createDb().users;
+      const user = users.find(
         (u: any) => u.username === username && u.password === password
       );
 
       if (user) {
         return reqInfo.utils.createResponse$(() => ({
-          status: 200,
+          status: STATUS.OK,
           body: {
             token: 'fake-jwt-token-for-' + user.username,
             employeeId: user.id
@@ -85,7 +107,7 @@ export class InMemoryDataService implements InMemoryDbService {
       }
 
       return reqInfo.utils.createResponse$(() => ({
-        status: 401,
+        status: STATUS.UNAUTHORIZED,
         body: { message: 'Invalid credentials' }
       }));
     }
