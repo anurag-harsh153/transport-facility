@@ -22,7 +22,7 @@ export class FilterPanelComponent implements OnInit {
   onFilterChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     const value = selectElement.value;
-    this.selectedVehicleType = value === 'all' ? undefined : (value as VehicleType);
+    this.selectedVehicleType = value ? (value as VehicleType) : undefined;
     this.filterChange.emit(this.selectedVehicleType);
   }
 

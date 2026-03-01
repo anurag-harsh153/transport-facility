@@ -7,10 +7,10 @@ export class InMemoryDataService implements InMemoryDbService {
 
   createDb() {
     const users = [
-      { id: '1', username: 'admin', password: 'qawszcer' },
-      { id: '2', username: 'john.doe', password: 'vbynuimm' },
-      { id: '3', username: 'jane.doe', password: 'bge5bujnn' },
-      { id: '4', username: 'peter.jones', password: 'bbreny6un' }
+      { id: 'EMP001', username: 'admin', password: 'qawszcer' },
+      { id: 'EMP002', username: 'johndoe', password: 'vbynuimm' },
+      { id: 'EMP003', username: 'janedoe', password: 'bge5bujnn' },
+      { id: 'EMP004', username: 'peterjones', password: 'bbreny6un' }
     ];
 
     const now = new Date();
@@ -20,18 +20,18 @@ export class InMemoryDataService implements InMemoryDbService {
     const rides: Ride[] = [
       {
         id: '11',
-        employeeId: '3',
+        employeeId: 'EMP003',
         vehicleType: VehicleType.Car,
         vehicleNo: 'TS-07-JA-1234',
         vacantSeats: 2,
         time: this.getTodayTime(currentHour, currentMinute - 30),
         pickupPoint: 'Main Gate',
         destination: 'Tech Park',
-        bookedEmployeeIds: ['4']
+        bookedEmployeeIds: ['EMP004']
       },
       {
         id: '12',
-        employeeId: '2',
+        employeeId: 'EMP002',
         vehicleType: VehicleType.Bike,
         vehicleNo: 'AP-05-CD-5678',
         vacantSeats: 0,
@@ -42,7 +42,7 @@ export class InMemoryDataService implements InMemoryDbService {
       },
       {
         id: '13',
-        employeeId: '4',
+        employeeId: 'EMP004',
         vehicleType: VehicleType.Car,
         vehicleNo: 'MH-12-EF-9101',
         vacantSeats: 3,
@@ -53,7 +53,7 @@ export class InMemoryDataService implements InMemoryDbService {
       },
       {
         id: '14',
-        employeeId: '3',
+        employeeId: 'EMP003',
         vehicleType: VehicleType.Bike,
         vehicleNo: 'KA-01-FG-9876',
         vacantSeats: 1,

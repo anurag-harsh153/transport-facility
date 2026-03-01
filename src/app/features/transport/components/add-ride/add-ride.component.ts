@@ -30,7 +30,7 @@ export class AddRideComponent implements OnInit {
     this.addRideForm = this.fb.group({
       vehicleType: [VehicleType.Car, Validators.required],
       vehicleNo: ['', Validators.required],
-      vacantSeats: [1, [Validators.required, Validators.min(1), Validators.max(10)]],
+      vacantSeats: [1, [Validators.required, Validators.min(1), Validators.max(3)]],
       time: ['', Validators.required],
       pickupPoint: ['', Validators.required],
       destination: ['', Validators.required]

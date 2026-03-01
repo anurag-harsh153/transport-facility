@@ -16,12 +16,19 @@
     <div *ngIf="rides.length > 0; else noRides">
       <div *ngFor="let ride of rides" class="card ride-card-item">
         <h3>{{ ride.pickupPoint }} to {{ ride.destination }}</h3>
-        <p>Created by: {{ ride.employeeId }}</p>
-        <p>Time: {{ ride.time | date:'shortTime' }}</p>
-        <p>Vehicle: {{ ride.vehicleType }} ({{ ride.vehicleNo }})</p>
-        <p>Vacant Seats: {{ ride.vacantSeats }}</p>
-        <p *ngIf="ride.bookedEmployeeIds.length > 0">Booked by: {{ ride.bookedEmployeeIds.join(', ') }}</p>
+        <p><span class="ride-label">Created by:</span><span class="ride-value">{{ ride.employeeId }}</span></p>
+        <p><span class="ride-label">Time:</span><span class="ride-value">{{ ride.time | date:'shortTime' }}</span></p>
+        <p><span class="ride-label">Vehicle:</span><span class="ride-value">{{ ride.vehicleType }} ({{ ride.vehicleNo }})</span></p>
+        <p><span class="ride-label">Vacant Seats:</span><span class="ride-value">{{ ride.vacantSeats }}</span></p>
 
+        <div *ngIf="ride.bookedEmployeeIds.length > 0" class="booked-by-section mt-2">
+          <span class="booked-label">Booked by (Captured Id/Ids):</span>
+          <div class="badge-container">
+            <span *ngFor="let empId of ride.bookedEmployeeIds" class="employee-badge">
+              ID: {{ empId }}
+            </span>
+          </div>
+        </div>
         <button *ngIf="!hasBooked(ride) && ride.vacantSeats > 0" [disabled]="(hasAlreadyBookedToday$ | async)"
           [class.disabled-button]="(hasAlreadyBookedToday$ | async)" (click)="bookRide(ride.id)">
           Book Ride

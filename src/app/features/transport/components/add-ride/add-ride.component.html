@@ -46,7 +46,7 @@
       <input id="vacantSeats" type="number" formControlName="vacantSeats">
       <div *ngIf="submitted && formControls['vacantSeats'].errors" class="error">
         <small *ngIf="formControls['vacantSeats'].errors['required']">Number of vacant seats is required.</small>
-        <small *ngIf="formControls['vacantSeats'].errors['min'] || formControls['vacantSeats'].errors['max']">Seats must be between 1 and 10.</small>
+        <small *ngIf="formControls['vacantSeats'].errors['min'] || formControls['vacantSeats'].errors['max']">Seats must be between 1 and 3.</small>
       </div>
     </div>
 

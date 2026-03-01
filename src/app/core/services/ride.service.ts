@@ -52,7 +52,7 @@ export class RideService {
       const rideTime = new Date(ride.time);
       const hasVacantSeats = ride.vacantSeats > 0;
       const isTimeMatch = rideTime >= lowerBound && rideTime <= upperBound;
-      const isVehicleMatch = vehicleType ? ride.vehicleType === vehicleType : true;
+      const isVehicleMatch = !vehicleType ? true : ride.vehicleType === vehicleType;
 
       return hasVacantSeats && isTimeMatch && isVehicleMatch;
     });
@@ -72,15 +72,6 @@ export class RideService {
 
     const allRidesSnapshot = this._ridesSubject.getValue();
     const rideDate = new Date(ride.time).toDateString();
-
-    const alreadyCreatedRideToday = allRidesSnapshot.some(existingRide =>
-      existingRide.employeeId === currentEmployeeId &&
-      new Date(existingRide.time).toDateString() === rideDate
-    );
-
-    if (alreadyCreatedRideToday) {
-      return throwError(() => new Error('You have already created a ride for today.'));
-    }
 
     const rideToAdd: Omit<Ride, 'id'> = {
       ...ride,
