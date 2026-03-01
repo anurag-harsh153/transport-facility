@@ -19,7 +19,7 @@ Once the server is running, open your browser and navigate to `http://localhost:
       { id: 'EMP004', username: 'peterjones', password: 'bbreny6un' }
     ];
 ```
-3. 5.Core functionalities
+3. Core functionalities
     a. An auth token is generated for the logged-in user and saved in session storage.
     b. Auth guards are implemented to prevent unauthorized access to protected routes.
     c. Auth interceptors are added to attach headers to HTTP requests.
