@@ -1,9 +1,3 @@
-# TransportFacility
-
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.3.
-
-## Development server
-
 To start a local development server, run:
 
 ```bash
@@ -12,48 +6,84 @@ ng serve
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-## Code scaffolding
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+1. Do not refresh the page after running the InMemoryDB loses the saved user actions.
+2. Use these credentials for testing the application features
 
-```bash
-ng generate component component-name
+```ts
+    const users = [
+      { id: 'EMP001', username: 'admin', password: 'qawszcer' },
+      { id: 'EMP002', username: 'johndoe', password: 'vbynuimm' },
+      { id: 'EMP003', username: 'janedoe', password: 'bge5bujnn' },
+      { id: 'EMP004', username: 'peterjones', password: 'bbreny6un' }
+    ];
 ```
+3. 5.Core functionalities
+    a. An auth token is generated for the logged-in user and saved in session storage.
+    b. Auth guards are implemented to prevent unauthorized access to protected routes.
+    c. Auth interceptors are added to attach headers to HTTP requests.
+    d. HTTP error interceptors are added to notify the status of HTTP requests.
+    e. A user can add multiple rides.
+    f. A user can book only one ride and cannot book the same ride twice.
+    g. Seats are updated after every booking.
+    h. Rides created by the user are captured and displayed.
+    i. Rides booked by the user are captured and displayed.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
 
-```bash
-ng generate --help
-```
+4. These are initial preloaded rides data
+```ts
+        const rides: Ride[] = [
+            {
+                id: '11',
+                employeeId: 'EMP003',
+                vehicleType: VehicleType.Car,
+                vehicleNo: 'TS-07-JA-1234',
+                vacantSeats: 2,
+                time: this.getTodayTime(currentHour, currentMinute - 30),
+                pickupPoint: 'Main Gate',
+                destination: 'Tech Park',
+                bookedEmployeeIds: ['EMP004']
+            },
+            {
+                id: '12',
+                employeeId: 'EMP002',
+                vehicleType: VehicleType.Bike,
+                vehicleNo: 'AP-05-CD-5678',
+                vacantSeats: 0,
+                time: this.getTodayTime(currentHour, currentMinute + 15),
+                pickupPoint: 'Tech Park',
+                destination: 'Central Station',
+                bookedEmployeeIds: ['3']
+            },
+            {
+                id: '13',
+                employeeId: 'EMP004',
+                vehicleType: VehicleType.Car,
+                vehicleNo: 'MH-12-EF-9101',
+                vacantSeats: 3,
+                time: this.getTodayTime(currentHour + 1, currentMinute),
+                pickupPoint: 'Main Gate',
+                destination: 'Downtown',
+                bookedEmployeeIds: []
+            },
+            {
+                id: '14',
+                employeeId: 'EMP003',
+                vehicleType: VehicleType.Bike,
+                vehicleNo: 'KA-01-FG-9876',
+                vacantSeats: 1,
+                time: this.getTodayTime(currentHour - 1, currentMinute + 10),
+                pickupPoint: 'City Center',
+                destination: 'Office Park',
+                bookedEmployeeIds: []
+            }
+            ];
 
-## Building
+    ```
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+5. To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
