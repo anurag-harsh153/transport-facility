@@ -19,16 +19,26 @@ Once the server is running, open your browser and navigate to `http://localhost:
       { id: 'EMP004', username: 'peterjones', password: 'bbreny6un' }
     ];
 ```
-3. Core functionalities
-    a. An auth token is generated for the logged-in user and saved in session storage.
-    b. Auth guards are implemented to prevent unauthorized access to protected routes.
-    c. Auth interceptors are added to attach headers to HTTP requests.
-    d. HTTP error interceptors are added to notify the status of HTTP requests.
-    e. A user can add multiple rides.
-    f. A user can book only one ride and cannot book the same ride twice.
-    g. Seats are updated after every booking.
-    h. Rides created by the user are captured and displayed.
-    i. Rides booked by the user are captured and displayed.
+
+## Core Functionalities
+
+a. An auth token is generated for the logged-in user and saved in session storage.  
+
+b. Auth guards are implemented to prevent unauthorized access to protected routes.  
+
+c. Auth interceptors are added to attach headers to HTTP requests.  
+
+d. HTTP error interceptors are added to notify the status of HTTP requests.  
+
+e. A user can add multiple rides.  
+
+f. A user can book only one ride and cannot book the same ride twice.  
+
+g. Seats are updated after every booking.  
+
+h. Rides created by the user are captured and displayed.  
+
+i. Rides booked by the user are captured and displayed.
 
 
 4. These are initial preloaded rides data
