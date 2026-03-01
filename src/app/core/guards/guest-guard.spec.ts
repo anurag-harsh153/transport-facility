@@ -1,16 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
-import { authGuard } from './auth-guard';
-import { Observable, of } from 'rxjs';
+import { guestGuard } from './guest-guard';
 
-describe('AuthGuard', () => {
+describe('GuestGuard', () => {
   let authServiceSpy: jasmine.SpyObj<AuthService>;
   let routerSpy: jasmine.SpyObj<Router>;
 
   beforeEach(() => {
     const authSpy = jasmine.createSpyObj('AuthService', ['isAuthenticated']);
-    const router = jasmine.createSpyObj('Router', ['createUrlTree']);
+    const router = jasmine.createSpyObj('Router', ['navigate']);
 
     TestBed.configureTestingModule({
       providers: [
@@ -25,21 +24,20 @@ describe('AuthGuard', () => {
 
   describe('Given the guard is being activated', () => {
     describe('When the user is authenticated', () => {
-      it('Then it should return true', () => {
+      it('Then it should navigate to /transport and return false', () => {
         authServiceSpy.isAuthenticated.and.returnValue(true);
-        const result = TestBed.runInInjectionContext(() => authGuard({} as any, {} as any));
-        expect(result).toBeTrue();
+        const result = TestBed.runInInjectionContext(() => guestGuard({} as any, {} as any));
+        expect(result).toBeFalse();
+        expect(routerSpy.navigate).toHaveBeenCalledWith(['/transport']);
       });
     });
 
     describe('When the user is NOT authenticated', () => {
-      it('Then it should redirect to login and return a UrlTree', () => {
-        const mockUrlTree = {} as any;
+      it('Then it should return true', () => {
         authServiceSpy.isAuthenticated.and.returnValue(false);
-        routerSpy.createUrlTree.and.returnValue(mockUrlTree);
-        const result = TestBed.runInInjectionContext(() => authGuard({} as any, {} as any));
-        expect(result).toBe(mockUrlTree);
-        expect(routerSpy.createUrlTree).toHaveBeenCalledWith(['/auth/login']);
+        const result = TestBed.runInInjectionContext(() => guestGuard({} as any, {} as any));
+        expect(result).toBeTrue();
+        expect(routerSpy.navigate).not.toHaveBeenCalled();
       });
     });
   });
