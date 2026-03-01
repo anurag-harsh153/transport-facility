@@ -67,7 +67,7 @@ export class RideListComponent implements OnInit {
   bookRide(rideId: string): void {
     this.rideService.bookRide(rideId).subscribe({
       next: (updatedRide) => {
-        console.log('Ride booked successfully!', updatedRide);
+        this.notificationService.showSuccess('Ride booked successfully!');
         this.refreshRides(this.currentFilter); 
       },
       error: (err) => {
@@ -90,6 +90,7 @@ export class RideListComponent implements OnInit {
   }
 
   onRideAdded(): void {
+    this.notificationService.showSuccess('Ride added successfully!');
     this.showAddRideForm = false;
     this.refreshRides(this.currentFilter);
   }

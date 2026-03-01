@@ -7,6 +7,7 @@ import { AddRideComponent } from './components/add-ride/add-ride.component';
 import { RideListComponent } from './components/ride-list/ride-list.component';
 import { FilterPanelComponent } from './components/filter-panel/filter-panel.component';
 import { TransportPageComponent } from './transport-page/transport-page.component';
+import { SharedModule } from '../../shared/shared-module';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { TransportPageComponent } from './transport-page/transport-page.componen
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    TransportRoutingModule
+    TransportRoutingModule,
+    SharedModule
   ]
 })
 export class TransportModule { }

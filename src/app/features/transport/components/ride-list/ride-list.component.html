@@ -3,10 +3,15 @@
 
   <app-filter-panel (filterChange)="refreshRides($event)" (addRideClick)="toggleAddRideForm()"></app-filter-panel>
 
-  <div *ngIf="showAddRideForm" class="mt-4">
-    <app-add-ride (rideAdded)="onRideAdded()" (cancelled)="onRideAdded()"></app-add-ride>
+  <app-modal *ngIf="showAddRideForm" title="Add New Ride" (close)="toggleAddRideForm()">
+    <app-add-ride (rideAdded)="onRideAdded()" (cancelled)="toggleAddRideForm()"></app-add-ride>
+  </app-modal>
+  <div *ngIf="bookedRideByUser$ | async as bookedRide" class="card mt-4 booked-ride-card">
+    <h3>Your Booked Ride For Today</h3>
+    <p>From: {{ bookedRide.pickupPoint }} to {{ bookedRide.destination }}</p>
+    <p>Time: {{ bookedRide.time | date:'shortTime' }}</p>
+    <p>Vehicle: {{ bookedRide.vehicleType }} ({{ bookedRide.vehicleNo }})</p>
   </div>
-
   <div *ngIf="rides$ | async as rides; else loadingOrNoRides" class="mt-4">
     <div *ngIf="rides.length > 0; else noRides">
       <div *ngFor="let ride of rides" class="card ride-card-item">
@@ -17,10 +22,8 @@
         <p>Vacant Seats: {{ ride.vacantSeats }}</p>
         <p *ngIf="ride.bookedEmployeeIds.length > 0">Booked by: {{ ride.bookedEmployeeIds.join(', ') }}</p>
 
-        <button *ngIf="!hasBooked(ride) && ride.vacantSeats > 0" 
-                [disabled]="(hasAlreadyBookedToday$ | async)"
-                [class.disabled-button]="(hasAlreadyBookedToday$ | async)"
-                (click)="bookRide(ride.id)">
+        <button *ngIf="!hasBooked(ride) && ride.vacantSeats > 0" [disabled]="(hasAlreadyBookedToday$ | async)"
+          [class.disabled-button]="(hasAlreadyBookedToday$ | async)" (click)="bookRide(ride.id)">
           Book Ride
         </button>
         <button *ngIf="hasBooked(ride)" disabled class="disabled-button">Booked</button>
@@ -34,11 +37,4 @@
   <ng-template #loadingOrNoRides>
     <p>Loading rides or no rides available...</p>
   </ng-template>
-</div>
-
-<div *ngIf="bookedRideByUser$ | async as bookedRide" class="card mt-4 booked-ride-card">
-  <h3>Your Booked Ride For Today</h3>
-  <p>From: {{ bookedRide.pickupPoint }} to {{ bookedRide.destination }}</p>
-  <p>Time: {{ bookedRide.time | date:'shortTime' }}</p>
-  <p>Vehicle: {{ bookedRide.vehicleType }} ({{ bookedRide.vehicleNo }})</p>
 </div>
