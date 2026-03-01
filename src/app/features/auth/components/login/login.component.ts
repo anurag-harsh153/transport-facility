@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
+import { NotificationService } from '../../../../core/services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,12 @@ export class LoginComponent {
   loginForm!: FormGroup;
   submitted = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) { }
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private notificationService: NotificationService
+  ) { }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -46,7 +52,7 @@ export class LoginComponent {
         this.router.navigate(['/transport']);
       },
       error: (err) => {
-        console.error('Login failed', err);
+        this.notificationService.showError(err.error?.message || 'Login failed. Please check your credentials.');
       }
     });
   }

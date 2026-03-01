@@ -5,6 +5,7 @@ import { Ride } from '../../models/ride.model';
 import { RideService } from '../../../../core/services/ride.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { VehicleType } from '../../models/vehicle-type.enum';
+import { NotificationService } from '../../../../core/services/notification.service';
 
 @Component({
   selector: 'app-ride-list',
@@ -17,12 +18,14 @@ export class RideListComponent implements OnInit {
   currentFilter: VehicleType | undefined = undefined;
   showAddRideForm: boolean = false;
   bookedRideByUser$!: Observable<Ride | undefined>;
+  hasAlreadyBookedToday$!: Observable<boolean>;
 
   private filterSubject = new BehaviorSubject<VehicleType | undefined>(undefined);
 
   constructor(
     private rideService: RideService,
-    private authService: AuthService
+    private authService: AuthService,
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
@@ -46,8 +49,11 @@ export class RideListComponent implements OnInit {
           ride.bookedEmployeeIds.includes(currentEmployeeId || '') &&
           new Date(ride.time).toDateString() === today
         );
-      }),
-      filter(ride => !!ride)
+      })
+    );
+
+    this.hasAlreadyBookedToday$ = this.bookedRideByUser$.pipe(
+      map(ride => !!ride)
     );
 
     this.refreshRides();
@@ -66,7 +72,7 @@ export class RideListComponent implements OnInit {
       },
       error: (err) => {
         console.error('Failed to book ride:', err.message);
-        alert(err.message || 'Could not book ride.');
+        this.notificationService.showError(err.message || 'Could not book ride.');
       }
     });
   }

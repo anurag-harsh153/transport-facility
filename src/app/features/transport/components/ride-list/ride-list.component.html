@@ -17,7 +17,10 @@
         <p>Vacant Seats: {{ ride.vacantSeats }}</p>
         <p *ngIf="ride.bookedEmployeeIds.length > 0">Booked by: {{ ride.bookedEmployeeIds.join(', ') }}</p>
 
-        <button *ngIf="!hasBooked(ride) && ride.vacantSeats > 0" (click)="bookRide(ride.id)">
+        <button *ngIf="!hasBooked(ride) && ride.vacantSeats > 0" 
+                [disabled]="(hasAlreadyBookedToday$ | async)"
+                [class.disabled-button]="(hasAlreadyBookedToday$ | async)"
+                (click)="bookRide(ride.id)">
           Book Ride
         </button>
         <button *ngIf="hasBooked(ride)" disabled class="disabled-button">Booked</button>

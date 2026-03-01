@@ -7,10 +7,10 @@ export class InMemoryDataService implements InMemoryDbService {
 
   createDb() {
     const users = [
-      { id: '1', username: 'admin', password: 'password' },
-      { id: '2', username: 'john.doe', password: 'password' },
-      { id: '3', username: 'jane.doe', password: 'password' },
-      { id: '4', username: 'peter.jones', password: 'password' }
+      { id: '1', username: 'admin', password: 'qawszcer' },
+      { id: '2', username: 'john.doe', password: 'vbynuimm' },
+      { id: '3', username: 'jane.doe', password: 'bge5bujnn' },
+      { id: '4', username: 'peter.jones', password: 'bbreny6un' }
     ];
 
     const now = new Date();
@@ -103,7 +103,6 @@ export class InMemoryDataService implements InMemoryDbService {
     return undefined;
   }
 
-  // Custom PUT handler for debugging
   put(reqInfo: RequestInfo): Observable<any> | undefined {
     if (reqInfo.collectionName === 'rides') {
       const collection = reqInfo.collection as Ride[];

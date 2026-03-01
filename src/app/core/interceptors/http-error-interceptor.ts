@@ -9,11 +9,12 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { NotificationService } from '../services/notification.service';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private notificationService: NotificationService) { }
 
   intercept(
     req: HttpRequest<any>,
@@ -27,28 +28,28 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         switch (error.status) {
 
           case 0:
-            console.error('Network error or server down');
+            this.notificationService.showError('Network error or server down');
             break;
 
           case 401:
-            console.error('Unauthorized access');
+            this.notificationService.showError('Unauthorized access');
             this.router.navigate(['/auth/login']);
             break;
 
           case 403:
-            console.error('Forbidden');
+            this.notificationService.showError('Forbidden access');
             break;
 
           case 404:
-            console.error('Resource not found');
+            this.notificationService.showError('Resource not found');
             break;
 
           case 500:
-            console.error('Internal server error');
+            this.notificationService.showError('Internal server error');
             break;
 
           default:
-            console.error('Unexpected error occurred');
+            this.notificationService.showError('Unexpected error occurred');
         }
 
         return throwError(() => error);

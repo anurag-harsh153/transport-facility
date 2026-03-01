@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RideService } from '../../../../core/services/ride.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { VehicleType } from '../../models/vehicle-type.enum';
+import { NotificationService } from '../../../../core/services/notification.service';
 
 @Component({
   selector: 'app-add-ride',
@@ -21,7 +22,8 @@ export class AddRideComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private rideService: RideService,
-    private authService: AuthService
+    private authService: AuthService,
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
@@ -47,7 +49,7 @@ export class AddRideComponent implements OnInit {
 
     const employeeId = this.authService.getEmployeeId();
     if (!employeeId) {
-      console.error('Cannot add ride, user is not logged in.');
+      this.notificationService.showError('Cannot add ride, user is not logged in.');
       return;
     }
 
@@ -69,7 +71,7 @@ export class AddRideComponent implements OnInit {
         this.rideAdded.emit();
       },
       error: (err) => {
-        console.error('Failed to add ride', err);
+        this.notificationService.showError(err.message || 'Failed to add ride');
       }
     });
   }

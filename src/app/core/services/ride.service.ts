@@ -65,6 +65,23 @@ export class RideService {
   }
 
   addRide(ride: Omit<Ride, 'id' | 'bookedEmployeeIds'>): Observable<Ride> {
+    const currentEmployeeId = this.authService.getEmployeeId();
+    if (!currentEmployeeId) {
+      return throwError(() => new Error('User is not logged in or employee ID is missing.'));
+    }
+
+    const allRidesSnapshot = this._ridesSubject.getValue();
+    const rideDate = new Date(ride.time).toDateString();
+
+    const alreadyCreatedRideToday = allRidesSnapshot.some(existingRide =>
+      existingRide.employeeId === currentEmployeeId &&
+      new Date(existingRide.time).toDateString() === rideDate
+    );
+
+    if (alreadyCreatedRideToday) {
+      return throwError(() => new Error('You have already created a ride for today.'));
+    }
+
     const rideToAdd: Omit<Ride, 'id'> = {
       ...ride,
       bookedEmployeeIds: [],
@@ -82,7 +99,7 @@ export class RideService {
 
     const rideUrl = `${this.ridesUrl}/${rideId}`;
 
-    const allRidesSnapshot = this._ridesSubject.getValue(); // Get current allRides snapshot for validation
+    const allRidesSnapshot = this._ridesSubject.getValue();
 
     return this.http.get<Ride>(rideUrl).pipe(
       switchMap(ride => {
@@ -95,7 +112,7 @@ export class RideService {
 
         const rideBeingBookedDate = new Date(ride.time).toDateString();
 
-        const alreadyBookedAnotherRide = allRidesSnapshot.some(existingRide => // Use the snapshot
+        const alreadyBookedAnotherRide = allRidesSnapshot.some(existingRide =>
           existingRide.id !== ride.id &&
           existingRide.bookedEmployeeIds.includes(currentEmployeeId || '') &&
           new Date(existingRide.time).toDateString() === rideBeingBookedDate
