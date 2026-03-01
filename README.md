@@ -1,7 +1,8 @@
 To start a local development server, run:
 
 ```bash
-ng serve
+local env - ng serve
+codesandbox env - npm start
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
@@ -84,6 +85,7 @@ Once the server is running, open your browser and navigate to `http://localhost:
 5. To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
 
 ```bash
-ng test
+local env - ng test
+codesandbox env - npm test
 ```
 
