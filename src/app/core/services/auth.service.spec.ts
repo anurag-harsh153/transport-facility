@@ -21,7 +21,7 @@ describe('AuthService', () => {
     service = TestBed.inject(AuthService);
     httpMock = TestBed.inject(HttpTestingController);
     router = TestBed.inject(Router);
-    localStorage.clear();
+    sessionStorage.clear();
   });
 
   afterEach(() => {
@@ -34,8 +34,8 @@ describe('AuthService', () => {
         const mockResponse = { token: 'fake-token', employeeId: '123' };
         service.login('user', 'pass').subscribe(res => {
           expect(res).toEqual(mockResponse);
-          expect(localStorage.getItem('auth_token')).toBe('fake-token');
-          expect(localStorage.getItem('auth_employee_id')).toBe('123');
+          expect(sessionStorage.getItem('auth_token')).toBe('fake-token');
+          expect(sessionStorage.getItem('auth_employee_id')).toBe('123');
         });
 
         const req = httpMock.expectOne('api/login');
@@ -47,16 +47,16 @@ describe('AuthService', () => {
 
   describe('Given the user is logged in', () => {
     beforeEach(() => {
-      localStorage.setItem('auth_token', 'fake-token');
-      localStorage.setItem('auth_employee_id', '123');
+      sessionStorage.setItem('auth_token', 'fake-token');
+      sessionStorage.setItem('auth_employee_id', '123');
     });
 
     describe('When logout is called', () => {
-      it('Then it should clear local storage and navigate to login', () => {
+      it('Then it should clear session storage and navigate to login', () => {
         const navigateSpy = spyOn(router, 'navigate');
         service.logout();
-        expect(localStorage.getItem('auth_token')).toBeNull();
-        expect(localStorage.getItem('auth_employee_id')).toBeNull();
+        expect(sessionStorage.getItem('auth_token')).toBeNull();
+        expect(sessionStorage.getItem('auth_employee_id')).toBeNull();
         expect(navigateSpy).toHaveBeenCalledWith(['/auth/login']);
       });
     });

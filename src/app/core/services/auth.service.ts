@@ -31,22 +31,22 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
-    localStorage.removeItem(this.EMPLOYEE_ID_KEY);
+    sessionStorage.removeItem(this.TOKEN_KEY);
+    sessionStorage.removeItem(this.EMPLOYEE_ID_KEY);
     this.router.navigate(['/auth/login']);
   }
 
   private storeTokenAndEmployeeId(token: string, employeeId: string): void {
-    localStorage.setItem(this.TOKEN_KEY, token);
-    localStorage.setItem(this.EMPLOYEE_ID_KEY, employeeId);
+    sessionStorage.setItem(this.TOKEN_KEY, token);
+    sessionStorage.setItem(this.EMPLOYEE_ID_KEY, employeeId);
   }
 
   getToken(): string | null {
-    return localStorage.getItem(this.TOKEN_KEY);
+    return sessionStorage.getItem(this.TOKEN_KEY);
   }
 
   getEmployeeId(): string | null {
-    return localStorage.getItem(this.EMPLOYEE_ID_KEY);
+    return sessionStorage.getItem(this.EMPLOYEE_ID_KEY);
   }
 
   isAuthenticated(): boolean {
