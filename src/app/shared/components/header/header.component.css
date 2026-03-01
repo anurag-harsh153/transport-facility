@@ -40,3 +40,14 @@ header {
   background-color: var(--secondary-color);
   border-color: var(--secondary-color);
 }
+
+@media (max-width: 768px) {
+  .header-content h1 {
+    font-size: 1em;
+  }
+
+  .header-content button {
+    font-size: 0.8em;
+    padding: 0.4em 0.8em;
+  }
+}

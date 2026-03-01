@@ -121,3 +121,24 @@
   transform: translateY(-1px);
   background-color: var(--primary-dark-color);
 }
+
+@media (max-width: 768px) {
+  .ride-list-container {
+    width: 100%;
+    margin: 1em 0;
+  }
+
+  .ride-card-item {
+    padding: 1em;
+  }
+
+  .ride-card-item p {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25em;
+  }
+
+  .ride-card-item button {
+    width: 100%;
+  }
+}

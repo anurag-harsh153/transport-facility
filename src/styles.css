@@ -23,7 +23,7 @@ body {
   font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  padding-top: 3.5em;
+  padding-top: 5em;
   background-color: var(--background-color);
   color: var(--text-color);
   line-height: 1.6;
@@ -113,9 +113,17 @@ button[type="submit"]:disabled, button:disabled {
 }
 
 .container {
+  width: 90%;
   max-width: 960px;
   margin: 0 auto;
   padding: 1em;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    padding: 0.5em;
+  }
 }
 
 app-root > router-outlet + * {

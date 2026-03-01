@@ -1,4 +1,15 @@
 .button-group {
     display: flex;
     justify-content: space-between;
+    gap: 1em;
+}
+
+@media (max-width: 768px) {
+    .button-group {
+        flex-direction: column;
+    }
+
+    .button-group button {
+        width: 100%;
+    }
 }

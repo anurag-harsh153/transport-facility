@@ -1,6 +1,7 @@
 .form-container {
-  max-width: 400px;
-  margin: 50px auto;
+  width: 90%; /* Fluid width */
+  max-width: 400px; /* Constrain on larger screens */
+  margin: 50px auto; /* Center horizontally */
   padding: 30px;
   background-color: var(--surface-color);
   border-radius: 8px;
@@ -10,3 +11,19 @@
 .form-container h2 {
     margin-top: 0;
 }
+
+@media (max-width: 768px) {
+  .form-container {
+    margin: 30px auto; /* Adjust top/bottom margin for medium screens, keep centered */
+    padding: 25px;
+  }
+}
+
+@media (max-width: 480px) { /* Even smaller screens */
+  .form-container {
+    width: 95%; /* Take up more width on very small screens */
+    margin: 15px auto; /* Reduced margin, keep centered */
+    padding: 20px;
+  }
+}
+
