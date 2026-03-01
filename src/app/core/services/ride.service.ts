@@ -6,6 +6,7 @@ import { APP_CONFIG } from '../tokens/app-config.token';
 import { Ride } from '../../features/transport/models/ride.model';
 import { VehicleType } from '../../features/transport/models/vehicle-type.enum';
 import { AuthService } from './auth.service';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,7 @@ export class RideService {
   constructor(
     private http: HttpClient,
     private authService: AuthService,
+    private notificationService: NotificationService,
     @Inject(APP_CONFIG) private config: { apiBaseUrl: string }
   ) {
     this.ridesUrl = `${this.config.apiBaseUrl}/rides`;
@@ -28,7 +30,7 @@ export class RideService {
     this.http.get<Ride[]>(this.ridesUrl).pipe(
     ).subscribe(
       rides => this._ridesSubject.next(rides),
-      error => console.error('Error loading initial rides:', error)
+      error => this.notificationService.showError('Error loading initial rides')
     );
   }
 
