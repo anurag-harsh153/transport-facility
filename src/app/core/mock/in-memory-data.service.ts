@@ -109,12 +109,8 @@ export class InMemoryDataService implements InMemoryDbService {
       const rideToUpdate: Ride = reqInfo.utils.getJsonBody(reqInfo.req);
       const index = collection.findIndex(r => r.id === rideToUpdate.id);
 
-      console.log('InMemoryDataService: PUT request for rides. Data received:', rideToUpdate);
-      console.log('InMemoryDataService: Current rides collection before update:', [...collection]);
-
       if (index > -1) {
         collection[index] = rideToUpdate;
-        console.log('InMemoryDataService: Rides collection after update:', [...collection]);
         return reqInfo.utils.createResponse$(() => ({
           body: rideToUpdate,
           status: STATUS.OK,
@@ -122,7 +118,6 @@ export class InMemoryDataService implements InMemoryDbService {
           url: reqInfo.url
         }));
       } else {
-        console.log('InMemoryDataService: Ride not found for update:', rideToUpdate.id);
         return reqInfo.utils.createResponse$(() => ({
           body: { message: `Ride with id '${rideToUpdate.id}' not found` },
           status: STATUS.NOT_FOUND,

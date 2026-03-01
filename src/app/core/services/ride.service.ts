@@ -26,7 +26,6 @@ export class RideService {
 
   private loadInitialRides(): void {
     this.http.get<Ride[]>(this.ridesUrl).pipe(
-      tap(rides => console.log('RideService: Initial rides loaded:', rides))
     ).subscribe(
       rides => this._ridesSubject.next(rides),
       error => console.error('Error loading initial rides:', error)
@@ -37,7 +36,6 @@ export class RideService {
     return this.http.get<Ride[]>(this.ridesUrl).pipe(
       tap(rides => {
         this._ridesSubject.next(rides);
-        console.log('RideService: Data refreshed, new rides state:', rides);
       })
     );
   }
@@ -127,10 +125,8 @@ export class RideService {
           vacantSeats: ride.vacantSeats - 1,
           bookedEmployeeIds: [...ride.bookedEmployeeIds, currentEmployeeId]
         };
-        console.log('RideService: Updated Ride Object before PUT:', updatedRide);
 
         return this.http.put<Ride>(rideUrl, updatedRide).pipe(
-          tap(response => console.log('RideService: PUT response:', response)),
           switchMap(response => this.refreshRidesData().pipe(map(() => response)))
         );
       })

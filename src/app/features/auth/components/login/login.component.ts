@@ -44,7 +44,6 @@ export class LoginComponent {
       return;
     }
 
-    console.log('Form Value:', this.loginForm.value);
     const { username, password } = this.loginForm.value;
 
     this.authService.login(username, password).subscribe({

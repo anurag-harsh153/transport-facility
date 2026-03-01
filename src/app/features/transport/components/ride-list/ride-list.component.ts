@@ -71,7 +71,6 @@ export class RideListComponent implements OnInit {
         this.refreshRides(this.currentFilter); 
       },
       error: (err) => {
-        console.error('Failed to book ride:', err.message);
         this.notificationService.showError(err.message || 'Could not book ride.');
       }
     });

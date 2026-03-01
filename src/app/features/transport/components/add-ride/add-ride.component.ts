@@ -67,7 +67,6 @@ export class AddRideComponent implements OnInit {
 
     this.rideService.addRide(rideData).subscribe({
       next: () => {
-        console.log('Ride added successfully!');
         this.rideAdded.emit();
       },
       error: (err) => {
